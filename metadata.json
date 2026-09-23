@@ -1,0 +1,6 @@
+{
+  "name": "Synth Tiles",
+  "description": "A rhythmic music tile game where players tap neon tiles in sync with pulsing synth-wave tracks.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

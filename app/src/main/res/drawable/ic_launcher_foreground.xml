@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Frame / Base Console centered at 54,54 (bounds 28 to 80) -->
+    <path
+        android:fillColor="#15082E"
+        android:strokeColor="#FF007F"
+        android:strokeWidth="2"
+        android:pathData="M29,26 L79,26 A4,4 0 0,1 83,30 L83,78 A4,4 0 0,1 79,82 L29,82 A4,4 0 0,1 25,78 L25,30 A4,4 0 0,1 29,26 Z" />
+
+    <!-- Lane dividers -->
+    <path
+        android:strokeColor="#30FFFFFF"
+        android:strokeWidth="1"
+        android:pathData="M39,26 L39,82 M53,26 L53,82 M67,26 L67,82" />
+
+    <!-- Hit Target Line (Glowing Cyan) -->
+    <path
+        android:strokeColor="#00FFE0"
+        android:strokeWidth="2"
+        android:pathData="M25,70 L83,70" />
+
+    <!-- Music Tiles falling on lanes -->
+    <!-- Lane 1 Tile (Magenta, upper) -->
+    <path
+        android:fillColor="#FF007F"
+        android:pathData="M27,34 L37,34 A2,2 0 0,1 39,36 L39,48 A2,2 0 0,1 37,50 L27,50 A2,2 0 0,1 25,48 L25,36 A2,2 0 0,1 27,34 Z" />
+
+    <!-- Lane 2 Tile (Electric Purple / Cyan, hitting line!) -->
+    <path
+        android:fillColor="#00FFE0"
+        android:pathData="M41,58 L51,58 A2,2 0 0,1 53,60 L53,72 A2,2 0 0,1 51,74 L41,74 A2,2 0 0,1 39,72 L39,60 A2,2 0 0,1 41,58 Z" />
+
+    <!-- Lane 3 Tile (Amber/Gold, mid) -->
+    <path
+        android:fillColor="#FFBE0B"
+        android:pathData="M55,42 L65,42 A2,2 0 0,1 67,44 L67,56 A2,2 0 0,1 65,58 L55,58 A2,2 0 0,1 53,56 L53,44 A2,2 0 0,1 55,42 Z" />
+
+    <!-- Lane 4 Tile (Neon Pink, upper) -->
+    <path
+        android:fillColor="#FF007F"
+        android:pathData="M69,30 L79,30 A2,2 0 0,1 81,32 L81,44 A2,2 0 0,1 79,46 L69,46 A2,2 0 0,1 67,44 L67,32 A2,2 0 0,1 69,30 Z" />
+
+    <!-- Hit Splash Star / Spark on Lane 2 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M46,63 L47.5,66 L50.5,66 L48,68 L49,71 L46,69 L43,71 L44,68 L41.5,66 L44.5,66 Z" />
+</vector>
