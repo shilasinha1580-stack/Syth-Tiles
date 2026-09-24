@@ -2,8 +2,8 @@ name: Build Android APK
 
 on:
   push:
-    branches: [ main, master ] # Triggers when you push to main or master
-  workflow_dispatch: # Gives you a manual button to click and compile anytime
+    branches: [ main, master ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -19,14 +19,16 @@ jobs:
         distribution: 'zulu'
         java-version: '17'
 
-    - name: Change Gradle Script Permissions
-      run: chmod +x ./gradlew
+    # This installs a fallback version of Gradle on the cloud server since your repo lacks gradlew
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v4
 
+    # Uses global gradle instead of ./gradlew
     - name: Build Debug APK
-      run: ./gradlew assembleDebug
+      run: gradle assembleDebug
 
     - name: Upload Output APK
       uses: actions/upload-artifact@v4
       with:
         name: App-Debug-APK
-        path: app/build/outputs/apk/debug/*.apk
+        path: "**/build/outputs/apk/debug/*.apk"
