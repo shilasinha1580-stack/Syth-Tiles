@@ -28,7 +28,6 @@ jobs:
         with:
           accept-android-sdk-licenses: true
           log-accepted-android-sdk-licenses: false
-          packages: ""
 
       - name: Install Android SDK
         run: |
@@ -43,7 +42,6 @@ jobs:
           gradle-version: "9.3.1"
 
       - name: Create temporary release keystore
-        working-directory: Syth-Tiles-main
         run: |
           keytool -genkeypair \
             -v \
@@ -57,7 +55,6 @@ jobs:
             -dname "CN=GitHub Actions, OU=CI, O=Syth-Tiles, L=CI, ST=CI, C=US"
 
       - name: Create .env
-        working-directory: Syth-Tiles-main
         run: |
           if [ -f .env.example ]; then
             cp .env.example .env
@@ -66,16 +63,14 @@ jobs:
           fi
 
       - name: Build release APK
-        working-directory: Syth-Tiles-main
         env:
-          KEYSTORE_PATH: my-upload-key.jks
+          KEYSTORE_PATH: ${{ github.workspace }}/my-upload-key.jks
           STORE_PASSWORD: github123
           KEY_PASSWORD: github123
         run: |
           gradle assembleRelease --no-daemon
 
-      - name: Show APK
-        working-directory: Syth-Tiles-main
+      - name: Show generated APK
         run: |
           find app/build/outputs/apk/release \
             -type f \
@@ -86,5 +81,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Syth-Tiles-release
-          path: Syth-Tiles-main/app/build/outputs/apk/release/*.apk
+          path: app/build/outputs/apk/release/*.apk
           if-no-files-found: error
