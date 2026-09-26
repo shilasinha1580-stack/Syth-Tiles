@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
@@ -25,16 +25,22 @@ jobs:
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          accept-android-sdk-licenses: true
+          log-accepted-android-sdk-licenses: false
+          packages: ""
 
-      - name: Install Android SDK
+      - name: Install required Android SDK packages
         run: |
-          yes | sdkmanager --licenses || true
-          sdkmanager \
+          yes | sdkmanager --licenses >/dev/null 2>&1 || true
+
+          sdkmanager --install \
             "platform-tools" \
             "platforms;android-36" \
+            "platforms;android-36-ext1" \
             "build-tools;36.0.0"
 
-      - name: Set up Gradle 9.3.1
+      - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "9.3.1"
@@ -44,8 +50,8 @@ jobs:
         run: |
           keytool -genkeypair \
             -v \
-            -keystore release.keystore \
-            -alias github-release \
+            -keystore my-upload-key.jks \
+            -alias upload \
             -keyalg RSA \
             -keysize 2048 \
             -validity 1 \
@@ -53,36 +59,24 @@ jobs:
             -keypass github123 \
             -dname "CN=GitHub Actions, OU=CI, O=Syth-Tiles, L=CI, ST=CI, C=US"
 
-      - name: Configure release signing
-        working-directory: Syth-Tiles-main
-        run: |
-          cat > signing.properties <<'EOF'
-          storeFile=release.keystore
-          storePassword=github123
-          keyAlias=github-release
-          keyPassword=github123
-          EOF
-
-      - name: Create .env
-        working-directory: Syth-Tiles-main
-        run: |
-          if [ -f .env.example ]; then
-            cp .env.example .env
-          else
-            touch .env
-          fi
-
       - name: Build release APK
         working-directory: Syth-Tiles-main
+        env:
+          KEYSTORE_PATH: my-upload-key.jks
+          STORE_PASSWORD: github123
+          KEY_PASSWORD: github123
         run: |
           gradle assembleRelease --no-daemon
 
-      - name: Find APK
+      - name: Show generated APK
         working-directory: Syth-Tiles-main
         run: |
-          find app/build/outputs/apk/release -type f -name "*.apk" -print
+          find app/build/outputs/apk/release \
+            -type f \
+            -name "*.apk" \
+            -print
 
-      - name: Upload release APK
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: Syth-Tiles-release
